@@ -21,7 +21,8 @@ REPORT_CONFIGS = {
         "reportTypeId": "spCampaigns",
         "groupBy": ["campaign"],
         "columns": [
-            "campaignName", "impressions", "clicks",
+            "campaignName", "campaignId", "campaignStatus",
+            "campaignBudgetAmount", "impressions", "clicks",
             "cost", "purchases7d", "sales7d",
         ],
     },
@@ -30,7 +31,8 @@ REPORT_CONFIGS = {
         "reportTypeId": "sbCampaigns",
         "groupBy": ["campaign"],
         "columns": [
-            "campaignName", "impressions", "clicks",
+            "campaignName", "campaignId", "campaignStatus",
+            "campaignBudgetAmount", "impressions", "clicks",
             "cost", "purchases7d", "sales7d",
         ],
     },
@@ -39,7 +41,8 @@ REPORT_CONFIGS = {
         "reportTypeId": "sdCampaigns",
         "groupBy": ["campaign"],
         "columns": [
-            "campaignName", "impressions", "clicks",
+            "campaignName", "campaignId", "campaignStatus",
+            "impressions", "clicks",
             "cost", "purchases7d", "sales7d",
         ],
     },

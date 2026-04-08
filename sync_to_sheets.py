@@ -40,7 +40,10 @@ SCOPES = [
 ]
 
 # Column headers for the spreadsheet
-SHEET_HEADERS = ["Campaign", "Impressions", "Clicks", "Cost", "Orders (7d)", "Sales (7d)"]
+SHEET_HEADERS = [
+    "Campaign", "Status", "Budget", "Impressions", "Clicks", "CTR%",
+    "Cost", "Orders (7d)", "Sales (7d)", "ACOS%", "ROAS",
+]
 
 # Set up logging
 logging.basicConfig(
@@ -81,16 +84,24 @@ def write_to_sheet(spreadsheet, tab_name, rows):
     except gspread.WorksheetNotFound:
         worksheet = spreadsheet.add_worksheet(title=tab_name, rows=len(rows) + 1, cols=len(SHEET_HEADERS))
 
-    # Build the data grid
+    # Build the data grid with calculated metrics
     data = [SHEET_HEADERS]
     for row in rows:
+        impressions = row.get("impressions", 0)
+        clicks = row.get("clicks", 0)
+        cost = row.get("cost", 0.0)
+        orders = row.get("purchases7d", 0)
+        sales = row.get("sales7d", 0.0)
+        ctr = round(clicks / impressions * 100, 2) if impressions > 0 else 0
+        acos = round(cost / sales * 100, 2) if sales > 0 else 0
+        roas = round(sales / cost, 2) if cost > 0 else 0
         data.append([
             row.get("campaignName", ""),
-            row.get("impressions", 0),
-            row.get("clicks", 0),
-            round(row.get("cost", 0.0), 2),
-            row.get("purchases7d", 0),
-            round(row.get("sales7d", 0.0), 2),
+            row.get("campaignStatus", ""),
+            round(row.get("campaignBudgetAmount", 0.0), 2),
+            impressions, clicks, ctr,
+            round(cost, 2), orders, round(sales, 2),
+            acos, roas,
         ])
 
     worksheet.update(range_name="A1", values=data)
