@@ -1,0 +1,13 @@
+# Secrets
+credentials.json
+google_credentials.json
+
+# Data / runtime
+ads_data.json
+sync.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
