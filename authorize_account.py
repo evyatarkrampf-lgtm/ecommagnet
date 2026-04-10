@@ -90,6 +90,13 @@ def main():
         print("Error: profile ID cannot be empty")
         sys.exit(1)
 
+    target_acos_raw = input("Target ACOS % (default 25): ").strip()
+    try:
+        target_acos = float(target_acos_raw) if target_acos_raw else 25.0
+    except ValueError:
+        print(f"Invalid target ACOS '{target_acos_raw}', using default 25.0")
+        target_acos = 25.0
+
     # Build the OAuth URL
     auth_params = (
         f"?client_id={client_id}"
@@ -137,6 +144,7 @@ def main():
         "profile_id_us": profile_id,
         "refresh_token": refresh_token,
         "note": f"Authorized {datetime.now().strftime('%B %d %Y')}",
+        "target_acos": target_acos,
     }
     save_credentials(creds)
 
